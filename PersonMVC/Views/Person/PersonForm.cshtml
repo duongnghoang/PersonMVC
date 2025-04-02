@@ -1,67 +1,73 @@
 ﻿@model FormPersonViewModel
 
 @{
-    if (!string.IsNullOrEmpty(ViewBag.Action))
-    {
-        ViewData["Title"] = ViewBag.Action;
-    }
-    else ViewData["Title"] = "PersonForm";
+    ViewData["Title"] = string.IsNullOrEmpty(ViewBag.Action) ? "PersonForm" : ViewBag.Action;
 }
 
-<h1>PersonForm</h1>
+<h1>@ViewData["Title"]</h1>
 
-<h4>FormPersonViewModel</h4>
+<h4>Person Form</h4>
 <hr />
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-6 offset-md-3">
         <form asp-action="@ViewBag.Action">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="FirstName" class="control-label"></label>
+            <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+            <div class="mb-3">
+                <label asp-for="FirstName" class="form-label"></label>
                 <input asp-for="FirstName" class="form-control" />
                 <span asp-validation-for="FirstName" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="LastName" class="control-label"></label>
+
+            <div class="mb-3">
+                <label asp-for="LastName" class="form-label"></label>
                 <input asp-for="LastName" class="form-control" />
                 <span asp-validation-for="LastName" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Gender" class="control-label"></label>
+
+            <div class="mb-3">
+                <label asp-for="Gender" class="form-label"></label>
                 <input asp-for="Gender" class="form-control" />
                 <span asp-validation-for="Gender" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="DateOfBirth" class="control-label"></label>
+
+            <div class="mb-3">
+                <label asp-for="DateOfBirth" class="form-label"></label>
                 <input asp-for="DateOfBirth" class="form-control" />
                 <span asp-validation-for="DateOfBirth" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="PhoneNumber" class="control-label"></label>
+
+            <div class="mb-3">
+                <label asp-for="PhoneNumber" class="form-label"></label>
                 <input asp-for="PhoneNumber" class="form-control" />
                 <span asp-validation-for="PhoneNumber" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="BirthPlace" class="control-label"></label>
+
+            <div class="mb-3">
+                <label asp-for="BirthPlace" class="form-label"></label>
                 <input asp-for="BirthPlace" class="form-control" />
                 <span asp-validation-for="BirthPlace" class="text-danger"></span>
             </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="IsGraduated" /> @Html.DisplayNameFor(model => model.IsGraduated)
-                </label>
+
+            <div class="form-check mb-3">
+                <input class="form-check-input" asp-for="IsGraduated" />
+                <label class="form-check-label" asp-for="IsGraduated"></label>
+                <span asp-validation-for="IsGraduated" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <input type="submit" value="@ViewBag.Action" class="btn btn-primary" />
+
+            <div class="d-grid">
+                <button type="submit" class="btn btn-primary">@ViewBag.Action</button>
             </div>
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
+<div class="mt-3">
+    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }
