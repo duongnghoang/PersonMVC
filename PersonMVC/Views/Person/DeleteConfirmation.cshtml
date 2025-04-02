@@ -1,0 +1,14 @@
+﻿@{
+    ViewData["Title"] = "Delete Confirmation";
+}
+
+<h1>Delete Confirmation</h1>
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["SuccessMessage"]
+    </div>
+}
+
+<a asp-action="Index" class="btn btn-primary">Back to List</a>
