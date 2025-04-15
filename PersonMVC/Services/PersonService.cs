@@ -15,6 +15,7 @@ public class PersonService(PersonData personData) : IPersonService
         var newId = personData.Persons.Max(p => p.Id) + 1;
         var person = new Person(newId, personModel.FirstName, personModel.LastName, personModel.Gender,
             personModel.DateOfBirth, personModel.PhoneNumber, personModel.BirthPlace, personModel.IsGraduated);
+
         personData.Persons.Add(person);
     }
 
@@ -54,8 +55,6 @@ public class PersonService(PersonData personData) : IPersonService
         updatedPerson.PhoneNumber = personModel.PhoneNumber;
         updatedPerson.BirthPlace = personModel.BirthPlace;
         updatedPerson.IsGraduated = personModel.IsGraduated;
-
-        //personData[person.Id] = updatedPerson;
     }
 
     public PaginatedList<ListPersonViewModel> GetPersonsMale(int pageIndex, int pageSize)
@@ -79,7 +78,7 @@ public class PersonService(PersonData personData) : IPersonService
 
     public Person GetPersonOldestAge()
     {
-        var oldestPerson = personData.Persons.OrderByDescending(p => p.DateOfBirth).First();
+        var oldestPerson = personData.Persons.OrderByDescending(p => p.DateOfBirth).Last();
 
         return oldestPerson;
     }

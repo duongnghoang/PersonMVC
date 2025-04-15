@@ -5,7 +5,7 @@ namespace PersonMVC.Common.Data;
 
 public class PersonData
 {
-    public List<Person> Persons { get; } =
+    public List<Person> Persons { get; init; } =
     [
         new(1, "John", "Doe", Gender.Male, new DateTime(1990, 1, 1), "123-456-7890", "New York", true),
         new(2, "Jane", "Doe", Gender.Female, new DateTime(2000, 2, 2), "234-567-8901", "Los Angeles", false),

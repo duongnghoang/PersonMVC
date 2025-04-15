@@ -35,7 +35,6 @@ public class PersonController(IPersonService personService) : Controller
     }
 
     [HttpPost("Create")]
-    [ValidateAntiForgeryToken]
     public IActionResult Create(FormPersonViewModel person)
     {
         personService.Add(person);
@@ -52,7 +51,6 @@ public class PersonController(IPersonService personService) : Controller
     }
 
     [HttpPost("Edit")]
-    [ValidateAntiForgeryToken]
     public IActionResult Edit(FormPersonViewModel person)
     {
         personService.Update(person);
@@ -61,18 +59,18 @@ public class PersonController(IPersonService personService) : Controller
     }
 
     [HttpPost("Delete")]
-    [ValidateAntiForgeryToken]
     public IActionResult Delete(int id)
     {
         var deletedPersonName = personService.Delete(id);
         TempData["SuccessMessage"] = $"The person {deletedPersonName} was deleted successfully.";
+
         return RedirectToAction("DeleteConfirmation");
     }
 
     [HttpGet]
     public IActionResult DeleteConfirmation()
     {
-        return View();
+        return View("DeleteConfirmation");
     }
 
     [HttpGet("Edit")]
@@ -82,18 +80,6 @@ public class PersonController(IPersonService personService) : Controller
         var personDetail = personService.GetPersonDetailForm(id);
 
         return View("PersonForm", personDetail);
-    }
-
-    [HttpGet("OldestAge")]
-    public Person? GetOldestPerson()
-    {
-        return personService.GetPersonOldestAge();
-    }
-
-    [HttpGet("FullName")]
-    public IEnumerable<string> GetFullNames()
-    {
-        return personService.GetPersonsFullName();
     }
 
     [HttpGet("BirthYearWithAction")]
@@ -128,7 +114,7 @@ public class PersonController(IPersonService personService) : Controller
     [HttpGet("BirthYearGreater")]
     public IActionResult GetBirthYearGreater(int pageSize, int pageIndex)
     {
-        ViewBag.Action = "BirthYearLower";
+        ViewBag.Action = "BirthYearGreater";
         var paginatedListBirthYearGreater = personService.GetPersonsByBirthYearWithAction("greater", pageIndex, pageSize);
 
         return View("Index", paginatedListBirthYearGreater);
@@ -137,7 +123,7 @@ public class PersonController(IPersonService personService) : Controller
     [HttpGet("BirthYearEqual")]
     public IActionResult GetBirthYearEqual(int pageSize, int pageIndex)
     {
-        ViewBag.Action = "BirthYearLower";
+        ViewBag.Action = "BirthYearEqual";
         var paginatedListBirthYearGreater = personService.GetPersonsByBirthYearWithAction("equal", pageIndex, pageSize);
 
         return View("Index", paginatedListBirthYearGreater);
