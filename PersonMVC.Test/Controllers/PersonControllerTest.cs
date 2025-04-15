@@ -239,7 +239,7 @@ public class PersonControllerTest
         Assert.Multiple(() =>
         {
             Assert.That(result.ViewName, Is.EqualTo("PersonForm"));
-            Assert.That(result.ViewData["Action"], Is.EqualTo("Create"));
+            Assert.That(_personController.ViewBag.Action, Is.Not.Null.And.EqualTo("Create"));
         });
     }
 
