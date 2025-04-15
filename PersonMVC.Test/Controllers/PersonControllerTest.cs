@@ -15,8 +15,8 @@ public class PersonControllerTest
 {
     private Mock<IPersonService> _personServiceMock;
     private PersonController _personController;
-    private const int PAGE_INDEX = 1;
-    private const int PAGE_SIZE = 10;
+    private const int pageIndex = 1;
+    private const int pageSize = 10;
 
     [OneTimeSetUp]
     public void Setup()
@@ -30,17 +30,17 @@ public class PersonControllerTest
     public void GetMale_ValidRequest_ReturnsViewWithPaginatedListMalePersons()
     {
         // Arrange
-        var paginatedList = new PaginatedList<ListPersonViewModel>([], 0, PAGE_INDEX, PAGE_SIZE);
+        var paginatedList = new PaginatedList<ListPersonViewModel>([], 0, pageIndex, pageSize);
 
         _personServiceMock
-            .Setup(x => x.GetPersonsMale(PAGE_INDEX, PAGE_SIZE))
+            .Setup(x => x.GetPersonsMale(pageIndex, pageSize))
             .Returns(paginatedList);
 
         // Act
-        var result = _personController.GetMale(PAGE_INDEX, PAGE_SIZE) as ViewResult;
+        var result = _personController.GetMale(pageIndex, pageSize) as ViewResult;
 
         // Assert
-        _personServiceMock.Verify(x => x.GetPersonsMale(PAGE_INDEX, PAGE_SIZE), Times.Once);
+        _personServiceMock.Verify(x => x.GetPersonsMale(pageIndex, pageSize), Times.Once);
         
         Assert.That(result, Is.Not.Null);
         Assert.Multiple(() =>
@@ -55,16 +55,16 @@ public class PersonControllerTest
     public void Index_ValidRequest_ReturnsViewWithPaginatedListPersons()
     {
         // Arrange
-        var paginatedList = new PaginatedList<ListPersonViewModel>([], 0, PAGE_INDEX, PAGE_SIZE);
+        var paginatedList = new PaginatedList<ListPersonViewModel>([], 0, pageIndex, pageSize);
         _personServiceMock
-            .Setup(x => x.GetAllPersons(PAGE_INDEX, PAGE_SIZE))
+            .Setup(x => x.GetAllPersons(pageIndex, pageSize))
             .Returns(paginatedList);
 
         // Act
-        var result = _personController.Index(PAGE_INDEX, PAGE_SIZE) as ViewResult;
+        var result = _personController.Index(pageIndex, pageSize) as ViewResult;
 
         // Assert
-        _personServiceMock.Verify(x => x.GetAllPersons(PAGE_INDEX, PAGE_SIZE), Times.Once);
+        _personServiceMock.Verify(x => x.GetAllPersons(pageIndex, pageSize), Times.Once);
 
         Assert.That(result, Is.Not.Null);
         Assert.Multiple(() =>
@@ -79,7 +79,7 @@ public class PersonControllerTest
     public void GetPersonsByBirthYearAction_IfActionEmpty_ReturnsBadRequestWithMessage()
     {
         // Act
-        var result = _personController.GetPersonsByBirthYearAction("", PAGE_INDEX, PAGE_SIZE) as BadRequestObjectResult;
+        var result = _personController.GetPersonsByBirthYearAction("", pageIndex, pageSize) as BadRequestObjectResult;
 
         // Assert
         Assert.That(result, Is.Not.Null);
@@ -95,7 +95,7 @@ public class PersonControllerTest
     public void GetPersonsByBirthYearAction_IfActionGetBirthYearLower_ReturnsRedirectToActionResult(string action)
     {
         // Act
-        var result = _personController.GetPersonsByBirthYearAction(action, PAGE_INDEX, PAGE_SIZE) as RedirectToActionResult;
+        var result = _personController.GetPersonsByBirthYearAction(action, pageIndex, pageSize) as RedirectToActionResult;
 
         // Assert
         Assert.That(result, Is.Not.Null);
@@ -103,8 +103,8 @@ public class PersonControllerTest
         Assert.Multiple(() =>
         {
             Assert.That(result.ActionName, Is.EqualTo("GetBirthYearLower"));
-            Assert.That(result.RouteValues["pageIndex"], Is.EqualTo(PAGE_INDEX));
-            Assert.That(result.RouteValues["pageSize"], Is.EqualTo(PAGE_SIZE));
+            Assert.That(result.RouteValues["pageIndex"], Is.EqualTo(pageIndex));
+            Assert.That(result.RouteValues["pageSize"], Is.EqualTo(pageSize));
         });
     }
 
@@ -113,7 +113,7 @@ public class PersonControllerTest
     public void GetPersonsByBirthYearAction_IfActionGetBirthYearGreater_ReturnsRedirectToActionResult(string action)
     {
         // Act
-        var result = _personController.GetPersonsByBirthYearAction(action, PAGE_INDEX, PAGE_SIZE) as RedirectToActionResult;
+        var result = _personController.GetPersonsByBirthYearAction(action, pageIndex, pageSize) as RedirectToActionResult;
 
         // Assert
         Assert.That(result, Is.Not.Null);
@@ -121,8 +121,8 @@ public class PersonControllerTest
         Assert.Multiple(() =>
         {
             Assert.That(result.ActionName, Is.EqualTo("GetBirthYearGreater"));
-            Assert.That(result.RouteValues["pageIndex"], Is.EqualTo(PAGE_INDEX));
-            Assert.That(result.RouteValues["pageSize"], Is.EqualTo(PAGE_SIZE));
+            Assert.That(result.RouteValues["pageIndex"], Is.EqualTo(pageIndex));
+            Assert.That(result.RouteValues["pageSize"], Is.EqualTo(pageSize));
         });
     }
 
@@ -131,7 +131,7 @@ public class PersonControllerTest
     public void GetPersonsByBirthYearAction_IfActionGetBirthYearEqual_ReturnsRedirectToActionResult(string action)
     {
         // Act
-        var result = _personController.GetPersonsByBirthYearAction(action, PAGE_INDEX, PAGE_SIZE) as RedirectToActionResult;
+        var result = _personController.GetPersonsByBirthYearAction(action, pageIndex, pageSize) as RedirectToActionResult;
 
         // Assert
         Assert.That(result, Is.Not.Null);
@@ -139,8 +139,8 @@ public class PersonControllerTest
         Assert.Multiple(() =>
         {
             Assert.That(result.ActionName, Is.EqualTo("GetBirthYearEqual"));
-            Assert.That(result.RouteValues["pageIndex"], Is.EqualTo(PAGE_INDEX));
-            Assert.That(result.RouteValues["pageSize"], Is.EqualTo(PAGE_SIZE));
+            Assert.That(result.RouteValues["pageIndex"], Is.EqualTo(pageIndex));
+            Assert.That(result.RouteValues["pageSize"], Is.EqualTo(pageSize));
         });
     }
 
@@ -148,7 +148,7 @@ public class PersonControllerTest
     public void GetPersonsByBirthYearAction_IfActionInvalid_ReturnsNotFoundWithMessage(string action)
     {
         // Act
-        var result = _personController.GetPersonsByBirthYearAction(action, PAGE_INDEX, PAGE_SIZE) as NotFoundObjectResult;
+        var result = _personController.GetPersonsByBirthYearAction(action, pageIndex, pageSize) as NotFoundObjectResult;
 
         // Assert
         Assert.That(result, Is.Not.Null);
@@ -163,16 +163,16 @@ public class PersonControllerTest
     public void GetBirthYearLower_ValidRequest_ReturnsViewWithPaginatedListPersons()
     {
         // Arrange
-        var paginatedList = new PaginatedList<ListPersonViewModel>([], 0, PAGE_INDEX, PAGE_SIZE);
+        var paginatedList = new PaginatedList<ListPersonViewModel>([], 0, pageIndex, pageSize);
         _personServiceMock
             .Setup(x => x.GetPersonsByBirthYearWithAction(It.IsAny<string>(), It.IsAny<int>(), It.IsAny<int>()))
             .Returns(paginatedList);
 
         // Act
-        var result = _personController.GetBirthYearLower(PAGE_SIZE, PAGE_INDEX) as ViewResult;
+        var result = _personController.GetBirthYearLower(pageSize, pageIndex) as ViewResult;
 
         // Assert
-        _personServiceMock.Verify(x => x.GetPersonsByBirthYearWithAction("lower", PAGE_INDEX, PAGE_SIZE), Times.Once);
+        _personServiceMock.Verify(x => x.GetPersonsByBirthYearWithAction("lower", pageIndex, pageSize), Times.Once);
         Assert.That(result, Is.Not.Null);
         Assert.Multiple(() =>
         {
@@ -186,16 +186,16 @@ public class PersonControllerTest
     public void GetBirthYearGreater_ValidRequest_ReturnsViewWithPaginatedListPersons()
     {
         // Arrange
-        var paginatedList = new PaginatedList<ListPersonViewModel>([], 0, PAGE_INDEX, PAGE_SIZE);
+        var paginatedList = new PaginatedList<ListPersonViewModel>([], 0, pageIndex, pageSize);
         _personServiceMock
             .Setup(x => x.GetPersonsByBirthYearWithAction(It.IsAny<string>(), It.IsAny<int>(), It.IsAny<int>()))
             .Returns(paginatedList);
 
         // Act
-        var result = _personController.GetBirthYearGreater(PAGE_SIZE, PAGE_INDEX) as ViewResult;
+        var result = _personController.GetBirthYearGreater(pageSize, pageIndex) as ViewResult;
 
         // Assert
-        _personServiceMock.Verify(x => x.GetPersonsByBirthYearWithAction("greater", PAGE_INDEX, PAGE_SIZE), Times.Once);
+        _personServiceMock.Verify(x => x.GetPersonsByBirthYearWithAction("greater", pageIndex, pageSize), Times.Once);
         Assert.That(result, Is.Not.Null);
         Assert.Multiple(() =>
         {
@@ -209,16 +209,16 @@ public class PersonControllerTest
     public void GetBirthYearEqual_ValidRequest_ReturnsViewWithPaginatedListPersons()
     {
         // Arrange
-        var paginatedList = new PaginatedList<ListPersonViewModel>([], 0, PAGE_INDEX, PAGE_SIZE);
+        var paginatedList = new PaginatedList<ListPersonViewModel>([], 0, pageIndex, pageSize);
         _personServiceMock
             .Setup(x => x.GetPersonsByBirthYearWithAction(It.IsAny<string>(), It.IsAny<int>(), It.IsAny<int>()))
             .Returns(paginatedList);
 
         // Act
-        var result = _personController.GetBirthYearEqual(PAGE_SIZE, PAGE_INDEX) as ViewResult;
+        var result = _personController.GetBirthYearEqual(pageSize, pageIndex) as ViewResult;
 
         // Assert
-        _personServiceMock.Verify(x => x.GetPersonsByBirthYearWithAction("equal", PAGE_INDEX, PAGE_SIZE), Times.Once);
+        _personServiceMock.Verify(x => x.GetPersonsByBirthYearWithAction("equal", pageIndex, pageSize), Times.Once);
         Assert.That(result, Is.Not.Null);
         Assert.Multiple(() =>
         {
@@ -305,12 +305,14 @@ public class PersonControllerTest
     public void Delete_PostIfPersonIdExist_ReturnsDeleteConfirmationView(int id)
     {
         // Arrange
+        const string deletedPersonName = "Deleted name";
+        _personServiceMock.Setup(x => x.Delete(1))
+            .Returns(deletedPersonName);
+        const string deletedNameSuccessMessage = $"The person {deletedPersonName} was deleted successfully.";
+        // Setup TempData manually
         var tempData = new TempDataDictionary(new DefaultHttpContext(), Mock.Of<ITempDataProvider>());
         _personController.TempData = tempData;
-        const string DELETED_PERSON_NAME = "Deleted name";
-        _personServiceMock.Setup(x => x.Delete(1))
-            .Returns(DELETED_PERSON_NAME);
-        const string DELETED_NAME_SUCCESS_MESSAGE = $"The person {DELETED_PERSON_NAME} was deleted successfully.";
+        
 
         // Act
         var result = _personController.Delete(1) as RedirectToActionResult;
@@ -322,7 +324,7 @@ public class PersonControllerTest
         {
             Assert.That(result.ActionName, Is.EqualTo("DeleteConfirmation"));
             Assert.That(_personController.TempData["SuccessMessage"],
-                Is.Not.Null.And.EqualTo(DELETED_NAME_SUCCESS_MESSAGE));
+                Is.Not.Null.And.EqualTo(deletedNameSuccessMessage));
         });
     }
 
@@ -380,7 +382,6 @@ public class PersonControllerTest
     public void ExportToExcel_ReturnsFileResponse()
     {
         // Arrange
-
         var expectedBytes = new byte[] { 1, 2, 3 };
         const string EXPECTED_CONTENT_TYPE = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
         const string EXPECTED_FILENAME = "Persons_20250415120000.xlsx";

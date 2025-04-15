@@ -11,8 +11,8 @@ namespace PersonMVC.Test.Services;
 public class PersonServiceTests
 {
     private PersonService _personService;
-    private const int PAGE_INDEX = 1;
-    private const int PAGE_SIZE = 10;
+    private const int pageIndex = 1;
+    private const int pageSize = 10;
 
     [SetUp]
     public void Setup()
@@ -52,7 +52,7 @@ public class PersonServiceTests
 
         // Act
         _personService.Add(personModel);
-        var personList = _personService.GetAllPersons(PAGE_INDEX, PAGE_SIZE);
+        var personList = _personService.GetAllPersons(pageIndex, pageSize);
 
         // Assert
         Assert.Multiple(() =>
@@ -66,7 +66,7 @@ public class PersonServiceTests
     public void GetAllPersons_ReturnsPaginatedList()
     {
         // Act
-        var result = _personService.GetAllPersons(PAGE_INDEX, PAGE_SIZE);
+        var result = _personService.GetAllPersons(pageIndex, pageSize);
 
         // Assert
         Assert.Multiple(() =>
@@ -80,7 +80,7 @@ public class PersonServiceTests
     public void Delete_IfPersonIdExist_ReturnsDeletedPersonName(int id)
     {
         // Arrange
-        const string EXPECTED_NAME = "ABC Doe";
+        const string expectedName = "ABC Doe";
 
         // Act
         var deletedPerson = _personService.Delete(id);
@@ -88,8 +88,8 @@ public class PersonServiceTests
         // Assert
         Assert.Multiple(() =>
         {
-            Assert.That(deletedPerson, Is.EqualTo(EXPECTED_NAME));
-            var personList = _personService.GetAllPersons(PAGE_INDEX, PAGE_SIZE);
+            Assert.That(deletedPerson, Is.EqualTo(expectedName));
+            var personList = _personService.GetAllPersons(pageIndex, pageSize);
             Assert.That(!personList.Exists(p => p.Id == id));
         });
     }
@@ -122,7 +122,7 @@ public class PersonServiceTests
 
         // Assert
         var updatedPerson = _personService
-            .GetAllPersons(PAGE_INDEX, PAGE_SIZE)
+            .GetAllPersons(pageIndex, pageSize)
             .First(p => p.Id == id);
 
         Assert.Multiple(() =>
@@ -153,7 +153,7 @@ public class PersonServiceTests
     public void GetPersonByBirthYearWithAction_ActionIsGreater_ReturnsDOBYearGreater2000(string action)
     {
         // Act
-        var result = _personService.GetPersonsByBirthYearWithAction(action, PAGE_INDEX, PAGE_SIZE);
+        var result = _personService.GetPersonsByBirthYearWithAction(action, pageIndex, pageSize);
 
         // Assert
         Assert.That(result, Is.Not.Null);
@@ -169,7 +169,7 @@ public class PersonServiceTests
     public void GetPersonByBirthYearWithAction_ActionIsLess_ReturnsDOBYearLess2000(string action)
     {
         // Act
-        var result = _personService.GetPersonsByBirthYearWithAction(action, PAGE_INDEX, PAGE_SIZE);
+        var result = _personService.GetPersonsByBirthYearWithAction(action, pageIndex, pageSize);
 
         // Assert
         Assert.That(result, Is.Not.Null);
@@ -184,7 +184,7 @@ public class PersonServiceTests
     public void GetPersonByBirthYearWithAction_ActionIsEqual_ReturnsDOBYearEqual2000(string action)
     {
         // Act
-        var result = _personService.GetPersonsByBirthYearWithAction(action, PAGE_INDEX, PAGE_SIZE);
+        var result = _personService.GetPersonsByBirthYearWithAction(action, pageIndex, pageSize);
 
         // Assert
         Assert.That(result, Is.Not.Null);
@@ -199,7 +199,7 @@ public class PersonServiceTests
     public void GetPersonByBirthYearWithAction_ActionIsNotValid_ReturnsEmptyList(string action)
     {
         // Act
-        var result = _personService.GetPersonsByBirthYearWithAction(action, PAGE_INDEX, PAGE_SIZE);
+        var result = _personService.GetPersonsByBirthYearWithAction(action, pageIndex, pageSize);
 
         // Assert
         Assert.That(result, Has.Count.Zero);
@@ -209,14 +209,14 @@ public class PersonServiceTests
     public void GetPersonsMale_ReturnsMalePersons()
     {
         // Arrange
-        const string GENDER_PROPERTY = "Gender";
+        const string genderProperty = "Gender";
 
         // Act
-        var result = _personService.GetPersonsMale(PAGE_INDEX, PAGE_SIZE);
+        var result = _personService.GetPersonsMale(pageIndex, pageSize);
 
         // Assert
         Assert.That(result, Has.Count.EqualTo(4));
-        Assert.That(result, Has.All.Property(GENDER_PROPERTY).EqualTo(Gender.Male));
+        Assert.That(result, Has.All.Property(genderProperty).EqualTo(Gender.Male));
     }
 
     [Test]
@@ -233,9 +233,9 @@ public class PersonServiceTests
     public void ExportToExcel_ReturnsFileResponse()
     {
         // Arrange
-        const string EXCEL_FILE_NAME_PREFIX = "Persons_";
-        const string EXCEL_FILE_NAME_EXTENSION = ".xlsx";
-        const string EXCEL_FILE_CONTENT_TYPE = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+        const string excelFileNamePrefix = "Persons_";
+        const string excelFileNameExtension = ".xlsx";
+        const string excelFileContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
 
         // Act
         var result = _personService.ExportToExcel();
@@ -245,9 +245,9 @@ public class PersonServiceTests
         Assert.Multiple(() =>
         {
             Assert.That(result, Is.InstanceOf<FileResponse>());
-            Assert.That(fileName, Does.StartWith(EXCEL_FILE_NAME_PREFIX));
-            Assert.That(fileName, Does.EndWith(EXCEL_FILE_NAME_EXTENSION));
-            Assert.That(result.ContentType, Is.EqualTo(EXCEL_FILE_CONTENT_TYPE));
+            Assert.That(fileName, Does.StartWith(excelFileNamePrefix));
+            Assert.That(fileName, Does.EndWith(excelFileNameExtension));
+            Assert.That(result.ContentType, Is.EqualTo(excelFileContentType));
             Assert.That(result.FileContent, Is.Not.Null);
         });
         
@@ -257,7 +257,7 @@ public class PersonServiceTests
     public void GetPersonDetail_IfPersonIdExist_ReturnsPersonDetail(int id)
     {
         // Arrange
-        const string EXPECTED_FIRST_NAME = "ABC";
+        const string expectedFirstName = "ABC";
 
         // Act
         var result = _personService.GetPersonDetail(id);
@@ -267,7 +267,7 @@ public class PersonServiceTests
         {
             Assert.That(result, Is.Not.Null);
             Assert.That(result.Id, Is.EqualTo(id));
-            Assert.That(result.FirstName, Is.EqualTo(EXPECTED_FIRST_NAME));
+            Assert.That(result.FirstName, Is.EqualTo(expectedFirstName));
         });
     }
 
